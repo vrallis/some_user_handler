@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,15 +33,13 @@ public class IoHandler {
     }
 
     public static String searchAndReturnLine(String filePath, String searchKeyword) {
-        try {
-            Scanner scanner = new Scanner(new File(filePath));
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
                 if (line.contains(searchKeyword)) {
                     return line;
                 }
             }
-            scanner.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,19 +62,17 @@ public class IoHandler {
         return false;
     }
 
-
-        public static String extractRandomLine(String filePath) {
-            try {
-                List<String> lines = Files.readAllLines(Paths.get(filePath));
-                if (!lines.isEmpty()) {
-                    int randomIndex = new Random().nextInt(lines.size());
-                    return lines.get(randomIndex);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+    public static String extractRandomLine(String filePath) {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(filePath));
+            if (!lines.isEmpty()) {
+                int randomIndex = new Random().nextInt(lines.size());
+                return lines.get(randomIndex);
             }
-            return null;
-            
-            
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return null;
+
     }
+}
