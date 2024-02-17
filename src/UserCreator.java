@@ -38,8 +38,9 @@ public class UserCreator {
             int index = random.nextInt(characters.length());
             password.append(characters.charAt(index));
         }
-
+        
         System.out.println("Generated password: " + password.toString());
+        
 
         return password.toString();
     }
