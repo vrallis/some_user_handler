@@ -6,8 +6,7 @@ public class User {
     private static String filePath = "users.csv";
 
     public static void main(String[] args) throws NoSuchAlgorithmException {
-        //loginUser("andrei", "andreiissexy");
-        loginUser("andrei2005", "andreiissexy1&");
+        loginUser("bill2","Bill!1llllllll");
     }
 
     // store values in a file
@@ -19,25 +18,32 @@ public class User {
 
     // register user
     public static void registerUser(String username, String password) throws NoSuchAlgorithmException {
-        if (IoHandler.searchUser(filePath, username) == true) {
-            System.out.println("Username already exists.");
-            return;
-        }
-        // check that username is at least 4 characters long
-        if (username.length() < 4) {
-            System.out.println("Username is needs to be at least 4 characters long.");
-            return;
-        }
         // check that password has at least 1 number and 1 special character and is at
         // least 8 characters long
         boolean hasNumber = Pattern.compile("[0-9]").matcher(password).find();
         boolean hasSpecialChar = Pattern.compile("[^a-zA-Z0-9]").matcher(password).find();
         boolean isLongEnough = password.length() >= 8;
+        boolean hasSpace = Pattern.compile(" ").matcher(username).find();
+
+        if (hasSpace) {
+            System.out.println("Username is not valid");
+            return;
+        }
 
         if (hasNumber && hasSpecialChar && isLongEnough) {
-            System.out.println("Password is valid.");
+            System.out.println("Password is valid");
         } else {
-            System.out.println("Password is not valid.");
+            System.out.println("Password is not valid");
+            return;
+        }
+
+        if (IoHandler.searchUser(filePath, username) == true) {
+            System.out.println("Username already exists.");
+            return;
+        }
+        // check that username is at least 4 characters long
+        if (username.length() < 3) {
+            System.out.println("Username is needs to be at least 4 characters long.");
             return;
         }
 

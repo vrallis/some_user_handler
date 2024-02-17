@@ -40,6 +40,7 @@ public class UserCreator {
         }
 
         System.out.println("Generated password: " + password.toString());
+
         return password.toString();
     }
 
