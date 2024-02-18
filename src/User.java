@@ -31,26 +31,26 @@ public class User {
         }
 
         if (hasNumber && hasSpecialChar && isLongEnough) {
-            System.out.println("Password is valid");
+            //System.out.println("Password is valid");
         } else {
-            System.out.println("Password is not valid");
+            //System.out.println("Password is not valid");
             return;
         }
 
         if (IoHandler.searchUser(filePath, username) == true) {
-            System.out.println("Username already exists.");
+            //System.out.println("Username already exists.");
             return;
         }
         // check that username is at least 4 characters long
         if (username.length() < 3) {
-            System.out.println("Username is needs to be at least 4 characters long.");
+            //System.out.println("Username is needs to be at least 4 characters long.");
             return;
         }
 
         String salt = Hash.generateSalt();
         String hashedPassword = Hash.hashAndSalt(password, salt);
         storeUser(username, hashedPassword, salt);
-        System.out.println("User registered successfully.");
+        //System.out.println("User registered successfully.");
     }
 
     // login user

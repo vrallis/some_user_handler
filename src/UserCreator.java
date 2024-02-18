@@ -23,7 +23,7 @@ public class UserCreator {
             usernameBuilder.append(specialChar);
         }
         username = usernameBuilder.toString();
-        System.out.println("Generated username: " + username);
+        //System.out.println("Generated username: " + username);
         
 
         return username;
@@ -56,7 +56,7 @@ public class UserCreator {
         }
     
         String finalPassword = new String(passwordChars);
-        System.out.println("Generated password: " + finalPassword);
+        //System.out.println("Generated password: " + finalPassword);
     
         return finalPassword;
     }
