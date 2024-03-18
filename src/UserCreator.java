@@ -1,31 +1,22 @@
 import java.util.Random;
 
 public class UserCreator {
-
-    public static void main(String[] args) {
-        UserCreator userCreator = new UserCreator();
-        String username = userCreator.generateUsername(6);
-        String password = userCreator.generatePassword(12);
-    }
+    private static final String USERNAME_SUFFIX = "0123456789_.";
 
     public String generateUsername(int suffixLength) {
         String name = getName();
-
-        String usernameSuffix = "0123456789_.";
         Random random = new Random();
         String username = name.replaceAll("\\s+", ""); // Remove spaces from the name
 
         StringBuilder usernameBuilder = new StringBuilder(username);
-        //int specialCharCount = random.nextInt(6); // Generate a random count of special characters (0-5)
+
         for (int i = 0; i <= suffixLength; i++) {
-            int index = random.nextInt(usernameSuffix.length());
-            char specialChar = usernameSuffix.charAt(index);
+            int index = random.nextInt(USERNAME_SUFFIX.length());
+            char specialChar = USERNAME_SUFFIX.charAt(index);
             usernameBuilder.append(specialChar);
         }
-        username = usernameBuilder.toString();
-        //System.out.println("Generated username: " + username);
-        
 
+        username = usernameBuilder.toString();
         return username;
     }
 
