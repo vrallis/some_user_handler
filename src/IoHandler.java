@@ -11,8 +11,8 @@ import java.util.Scanner;
 
 public class IoHandler {
 
-    public static void createFile(String filePath) {
-        File file = new File(filePath);
+    public static void createFile(String FILE_PATH) {
+        File file = new File(FILE_PATH);
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -22,9 +22,9 @@ public class IoHandler {
         }
     }
 
-    public static void writeToFile(String filePath, String content) {
+    public static void writeToFile(String FILE_PATH, String content) {
         try {
-            FileWriter writer = new FileWriter(filePath, true);
+            FileWriter writer = new FileWriter(FILE_PATH, true);
             writer.write(content + "\n");
             writer.close();
         } catch (IOException e) {
@@ -32,8 +32,8 @@ public class IoHandler {
         }
     }
 
-    public static String searchAndReturnLine(String filePath, String searchKeyword) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+    public static String searchAndReturnLine(String FILE_PATH, String searchKeyword) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.contains(searchKeyword)) {
@@ -46,9 +46,9 @@ public class IoHandler {
         return null;
     }
 
-    public static boolean searchUser(String filePath, String searchKeyword) {
+    public static boolean searchUser(String FILE_PATH, String searchKeyword) {
         try {
-            Scanner scanner = new Scanner(new File(filePath));
+            Scanner scanner = new Scanner(new File(FILE_PATH));
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 if (line.contains(searchKeyword)) {
@@ -62,9 +62,23 @@ public class IoHandler {
         return false;
     }
 
-    public static String extractRandomLine(String filePath) {
+    public static String searchAndReturnLineFromUsername(String FILE_PATH, String username) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.contains(username)) {
+                    return line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String extractRandomLine(String FILE_PATH) {
         try {
-            List<String> lines = Files.readAllLines(Paths.get(filePath));
+            List<String> lines = Files.readAllLines(Paths.get(FILE_PATH));
             if (!lines.isEmpty()) {
                 int randomIndex = new Random().nextInt(lines.size());
                 return lines.get(randomIndex);
@@ -75,4 +89,56 @@ public class IoHandler {
         return null;
 
     }
+
+    public static boolean replaceLine(String FILE_PATH, String oldLine, String newLine) {
+        try {
+            List<String> fileContent = Files.readAllLines(Paths.get(FILE_PATH));
+            for (int i = 0; i < fileContent.size(); i++) {
+                if (fileContent.get(i).equals(oldLine)) {
+                    fileContent.set(i, newLine);
+                    Files.write(Paths.get(FILE_PATH), fileContent);
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean removeLineUsingUsername(String FILE_PATH, String username) {
+        try {
+            String line = searchAndReturnLineFromUsername(FILE_PATH, username);
+            if (line != null) {
+                List<String> fileContent = Files.readAllLines(Paths.get(FILE_PATH));
+                fileContent.remove(line);
+                Files.write(Paths.get(FILE_PATH), fileContent);
+                return true;
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static String extractUsernameFromLine(String line) {
+        String[] userArray = line.split(",");
+        String username = userArray[0];
+        return username;
+    }
+
+    public static String extractHashedPasswordFromLine(String line) {
+        String[] userArray = line.split(",");
+        String hashedPassword = userArray[1];
+        return hashedPassword;
+    }
+
+    public static String extractSaltFromLine(String line) {
+        String[] userArray = line.split(",");
+        String salt = userArray[2];
+        return salt;
+    }
+        
 }
+
