@@ -1,6 +1,6 @@
 # some_user_handler
 
-### Some classes for a instragram copy cat I made for a uni porject. This code can generate random usernames with random passwords. Can register users, verify users (user login). All passwords are hashed and salted (SHA-256). Also has some basic validity checks for usernames and passwords.
+### Some classes for a instragram copy cat I made for a uni porject. This code contains a user factory. An IO handler to handle tasks from the user database. Encrypts and salts passwords using SHA-256 encryption. Has a username and password validity checker and many more things.
 
 Names for user creation I got from here: https://github.com/aruljohn/popular-baby-names
 
