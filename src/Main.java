@@ -21,8 +21,5 @@ public class Main {
 
         double seconds = (double) duration / 1_000_000_000.0; // convert to seconds
         System.out.println("Execution time in seconds: " + seconds);
-        // IoHandler.writeToFile("performancedata.csv","Execution " + k+1 + " time in
-        // seconds: " + duration);
-        // }
     }
 }
