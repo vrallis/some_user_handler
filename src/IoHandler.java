@@ -62,6 +62,20 @@ public class IoHandler {
         return false;
     }
 
+    public static String searchAndReturnLineFromUsername(String FILE_PATH, String username) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.contains(username)) {
+                    return line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static String extractRandomLine(String FILE_PATH) {
         try {
             List<String> lines = Files.readAllLines(Paths.get(FILE_PATH));
@@ -87,6 +101,22 @@ public class IoHandler {
                 }
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean removeLineUsingUsername(String FILE_PATH, String username) {
+        try {
+            String line = searchAndReturnLineFromUsername(FILE_PATH, username);
+            if (line != null) {
+                List<String> fileContent = Files.readAllLines(Paths.get(FILE_PATH));
+                fileContent.remove(line);
+                Files.write(Paths.get(FILE_PATH), fileContent);
+                return true;
+            }
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
         return false;

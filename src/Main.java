@@ -5,12 +5,17 @@ public class Main {
         // for (int k = 0; k < 1000; k++) {
 
         long startTime = System.nanoTime();
-        for (int i = 0; i < 500; i++) {
-            UserCreator userCreator = new UserCreator();
-            String username = userCreator.generateUsername(6);
-            String password = userCreator.generatePassword(12);
-            User.registerUser(username, password);
-        }
+        // for (int i = 0; i < 5; i++) {
+        //     UserCreator userCreator = new UserCreator();
+        //     String username = userCreator.generateUsername(6);
+        //     String password = userCreator.generatePassword(12);
+        //     User.registerUser(username, password);
+        // }
+        
+        //User.registerUser("","");
+        //User.resetForgottenPassword("", "");
+        //User.loginUser("", "");
+
         long endTime = System.nanoTime();
         long duration = (endTime - startTime); // 1000000;
 

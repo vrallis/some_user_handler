@@ -52,22 +52,14 @@ public class User {
     }
 
     public static boolean resetForgottenPassword(String username, String newPassword) throws NoSuchAlgorithmException {
-        if (checkUsernameValidity(username)==false || checkPasswordValidity(newPassword)==false) {
+        if (checkPasswordValidity(newPassword)==false) {
+            System.out.println("New password is invalid.");
             return false;
         }
-
-        IoHandler.
-
-
-        String user = IoHandler.searchAndReturnLine(FILE_PATH, username);
-        if (user!=null) {
-            String[] userArray = user.split(",");
-            String salt = userArray[2];
-            String hashedPassword = Hash.hashAndSalt(newPassword, salt);
-            String newUser = username + "," + hashedPassword + "," + salt;
-            IoHandler.replaceLine(FILE_PATH, user, newUser);
-            return true;
-        }
+        IoHandler.removeLineUsingUsername(FILE_PATH, username);
+        registerUser(username, newPassword);
+        System.out.println("Password reset successful");
+        return true;
     }
 
     public static boolean checkUsernameValidity(String username) {
