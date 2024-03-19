@@ -6,20 +6,22 @@ public class User {
     private static final String FILE_PATH = "users.csv";
 
     public static void main(String[] args) throws NoSuchAlgorithmException {
-        loginUser("bill2","Bill!1llllllll");
-        registerUser("bill5","Bill!5*");
+        //loginUser("bill2","Bill!1llllllll");
+        //registerUser("bill5547","Bill!5574*","I like videogames");
+        changeBio("bill5547", "I like videogames too much");
+        //loginUser("bill5547","Bill!5574*");
         
     }
 
     // store values in a file
-    private static void storeUser(String username, String hashedPassword, String salt) {
+    private static void storeUser(String username, String hashedPassword, String salt, String bio) {
         IoHandler.createFile(FILE_PATH);
-        String user = username + "," + hashedPassword + "," + salt;
+        String user = username + "," + hashedPassword + "," + salt + "," + bio;
         IoHandler.writeToFile(FILE_PATH, user);
     }
 
     // register user
-    public static void registerUser(String username, String password) throws NoSuchAlgorithmException {
+    public static void registerUser(String username, String password, String bio) throws NoSuchAlgorithmException {
         // check that password has at least 1 number and 1 special character and is at
         // least 8 characters long
         boolean hasSpace = Pattern.compile(" ").matcher(username).find();
@@ -29,9 +31,14 @@ public class User {
             return;
         }
 
+        if (checkBioValidity(bio) == false) {
+            System.out.println("Bio is invalid.");
+            return;
+        }
+
         String salt = Hash.generateSalt();
         String hashedPassword = Hash.hashAndSalt(password, salt);
-        storeUser(username, hashedPassword, salt);
+        storeUser(username, hashedPassword, salt, bio);
         //System.out.println("User registered successfully.");
     }
 
@@ -56,9 +63,22 @@ public class User {
             System.out.println("New password is invalid.");
             return false;
         }
+        String bio = IoHandler.extractBioFromLine(IoHandler.searchAndReturnLine(FILE_PATH, username));
         IoHandler.removeLineUsingUsername(FILE_PATH, username);
-        registerUser(username, newPassword);
+        registerUser(username, newPassword, bio);
         System.out.println("Password reset successful");
+        return true;
+    }
+
+    public static boolean changeBio(String username, String newBio) {
+        if (checkBioValidity(newBio) == false) {
+            return false;
+        }
+        String oldLine = IoHandler.searchAndReturnLine(FILE_PATH, username);
+        String[] userArray = oldLine.split(",");
+        String newLine = userArray[0] + "," + userArray[1] + "," + userArray[2] + "," + newBio;
+        IoHandler.replaceLine(FILE_PATH, oldLine, newLine);
+        System.out.println("Bio changed successfully");
         return true;
     }
 
@@ -81,6 +101,13 @@ public class User {
             return true;
         }
         return false;
+    }
+
+    public static boolean checkBioValidity(String bio) {
+        if (bio.length() > 140) {
+            return false;
+        }
+        return true;
     }
 
 }

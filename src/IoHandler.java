@@ -139,6 +139,12 @@ public class IoHandler {
         String salt = userArray[2];
         return salt;
     }
+
+    public static String extractBioFromLine(String line) {
+        String[] userArray = line.split(",");
+        String bio = userArray[3];
+        return bio;
+    }
         
 }
 
